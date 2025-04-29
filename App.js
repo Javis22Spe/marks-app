@@ -1,48 +1,96 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ImageBackground, ActivityIndicator, SafeAreaView } from 'react-native';
+import { useState } from 'react';
+import Footer from './footer';
+
 
 export default function App() {
+  const [loadingLogin, setLoadingLogin] = useState(false);
+  const [loadingSignUp, setLoadingSignUp] = useState(false);
+
   const handleLogin = () => {
+    setLoadingLogin(true);
     console.log('Login button pressed');
+
+    setTimeout(() => {
+      setLoadingLogin(false);
+      // Here you would navigate or do something else
+    }, 2000); // 2 seconds loading simulation
   };
 
   const handleSignUp = () => {
+    setLoadingSignUp(true);
     console.log('Sign up button pressed');
+
+    setTimeout(() => {
+      setLoadingSignUp(false);
+      // Navigate to SignUp screen or whatever
+    }, 2000);
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to Note App!</Text>
+    <ImageBackground 
+      source={{ uri: 'https://images.unsplash.com/photo-1508780709619-79562169bc64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' }} 
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.overlay}>
+          <Text style={styles.title}>Welcome to Note App!</Text>
 
-        <Text style={styles.description}>
-          Save your notes locally and securely to the cloud. 
-          Access them anytime, anywhere with ease!
-        </Text>
+          <Text style={styles.description}>
+            Save your notes locally and securely to the cloud. 
+            Access them anytime, anywhere with ease!
+          </Text>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity 
+              style={styles.button} 
+              onPress={handleSignUp}
+              disabled={loadingSignUp}
+            >
+              {loadingSignUp ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text style={styles.buttonText}>Sign Up</Text>
+              )}
+            </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.button, styles.loginButton]} 
+              onPress={handleLogin}
+              disabled={loadingLogin}
+            >
+              {loadingLogin ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text style={styles.buttonText}>Login</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <StatusBar style="light" />
         </View>
-
-        <StatusBar style="auto" />
-      </View>
-    </ScrollView>
+        <Footer />
+      </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   scrollContainer: {
     flexGrow: 1,
   },
-  container: {
+  overlay: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: 'rgba(0,0,0,0.5)', 
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -51,12 +99,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#111827',
+    color: '#fff',
     textAlign: 'center',
   },
   description: {
     fontSize: 18,
-    color: '#6B7280',
+    color: '#E5E7EB',
     textAlign: 'center',
     marginBottom: 40,
     paddingHorizontal: 10,
@@ -67,20 +115,20 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '80%',
-    backgroundColor: '#4F46E5',
+    backgroundColor: '#6366F1',
     paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 10,
     marginBottom: 15,
     alignItems: 'center',
-    elevation: 2, // shadow on Android
-    shadowColor: '#000', // shadow on iOS
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
   },
   loginButton: {
-    backgroundColor: '#10B981', // green color for Login button
+    backgroundColor: '#22C55E',
   },
   buttonText: {
     color: 'white',
