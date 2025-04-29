@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ImageBackground, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useState } from 'react';
-import Footer from './footer';
+import Footer from './Footer.js';
 
 
 export default function App() {
@@ -14,8 +14,7 @@ export default function App() {
 
     setTimeout(() => {
       setLoadingLogin(false);
-      // Here you would navigate or do something else
-    }, 2000); // 2 seconds loading simulation
+    }, 2000); 
   };
 
   const handleSignUp = () => {
@@ -24,7 +23,6 @@ export default function App() {
 
     setTimeout(() => {
       setLoadingSignUp(false);
-      // Navigate to SignUp screen or whatever
     }, 2000);
   };
 
